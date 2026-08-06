@@ -3,8 +3,7 @@ import axios from 'axios';
 
 const ConversionContext = createContext();
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
+const API_URL = import.meta.env.VITE_API_URL || 'https://your-backend-url.com/api';
 export const ConversionProvider = ({ children }) => {
   const [fromUnit, setFromUnit] = useState('');
   const [toUnit, setToUnit] = useState('');
