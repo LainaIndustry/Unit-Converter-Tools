@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://convertsphere.example.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://convertsphere.example.com/about.html</loc><priority>0.7</priority></url>
+  <url><loc>https://convertsphere.example.com/contact.html</loc><priority>0.7</priority></url>
+  <url><loc>https://convertsphere.example.com/privacy-policy.html</loc><priority>0.5</priority></url>
+  <url><loc>https://convertsphere.example.com/terms.html</loc><priority>0.5</priority></url>
+  <url><loc>https://convertsphere.example.com/disclaimer.html</loc><priority>0.5</priority></url>
+  
+  <url><loc>https://convertsphere.example.com/converters/index.html</loc><priority>0.9</priority></url>
+  <url><loc>https://convertsphere.example.com/converters/length-converter.html</loc><priority>0.8</priority></url>
+  <url><loc>https://convertsphere.example.com/converters/weight-converter.html</loc><priority>0.8</priority></url>
+  <url><loc>https://convertsphere.example.com/converters/temperature-converter.html</loc><priority>0.8</priority></url>
+  
+  <url><loc>https://convertsphere.example.com/conversions/index.html</loc><priority>0.8</priority></url>
+  <url><loc>https://convertsphere.example.com/conversions/kg-to-lbs.html</loc><priority>0.7</priority></url>
+  <url><loc>https://convertsphere.example.com/conversions/cm-to-inches.html</loc><priority>0.7</priority></url>
+  
+  <url><loc>https://convertsphere.example.com/blog/index.html</loc><priority>0.8</priority></url>
+  <url><loc>https://convertsphere.example.com/blog/metric-vs-imperial.html</loc><priority>0.7</priority></url>
+  <url><loc>https://convertsphere.example.com/blog/how-unit-conversion-works.html</loc><priority>0.7</priority></url>
+  
+  <url><loc>https://convertsphere.example.com/guides/index.html</loc><priority>0.7</priority></url>
+</urlset>
