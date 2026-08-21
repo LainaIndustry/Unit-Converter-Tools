@@ -1,46 +1,49 @@
-# Unit Converter - MERN Stack Application
+# ConvertSphere - Unit Converter & Educational Blog
 
-A fully functional unit converter website built with the MERN stack (MongoDB, Express.js, React.js, Node.js).
+A complete, production-ready static website combining accurate unit conversion tools with an educational blog and learning resources.
 
 ## Features
 
-- ✅ No login/signup required - Fully accessible
-- ✅ Modern, responsive design with Tailwind CSS
-- ✅ 16+ unit categories with 100+ units
-- ✅ Real-time unit suggestions as you type
-- ✅ Accurate conversions using base unit system
-- ✅ Special handling for temperature conversions
-- ✅ Swap units functionality
-- ✅ Mobile-friendly hamburger menu
-- ✅ Comprehensive error handling
-- ✅ Clean, maintainable code structure
+- **20+ Conversion Categories**: Length, weight, temperature, area, volume, time, speed, pressure, energy, power, data storage, and more
+- **Universal Converter**: Convert any unit with instant results
+- **Popular Conversion Pages**: Dedicated pages for common conversions like kg to lbs, cm to inches, etc.
+- **Educational Blog**: 15+ original articles about measurement systems, science, and everyday calculations
+- **Dark/Light Mode**: User preference stored locally
+- **Search**: Client-side search for converters, conversions, and blog articles
+- **Mobile-First**: Fully responsive design that works on all devices
+- **SEO-Ready**: Proper meta tags, structured data, and semantic HTML
+- **AdSense Ready**: Non-intrusive advertisement placeholders
 
-## Tech Stack
+## Installation
 
-### Frontend
-- React 18
-- React Router DOM
-- Axios for API calls
-- Tailwind CSS for styling
-- Framer Motion for animations
-- React Icons
+1. Download or clone the repository
+2. No build process required - it's pure HTML/CSS/JS
+3. Open `index.html` in your browser
 
-### Backend
-- Node.js with Express
-- MongoDB with Mongoose
-- Express Validator for input validation
-- CORS for cross-origin requests
+## Deployment
 
-## Quick Start
+### Vercel
+1. Push to a GitHub repository
+2. Import to Vercel
+3. Deploy
 
-### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (local or Atlas)
-- npm or yarn
+### Netlify
+1. Drag and drop the folder to Netlify
+2. Or connect to your GitHub repository
 
-### Installation
+### Cloudflare Pages
+1. Connect your GitHub repository
+2. Deploy
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd unit-converter
+### GitHub Pages
+1. Push to GitHub
+2. Enable Pages in repository settings
+3. Select the main branch
+
+## Adding a Converter
+
+1. Add unit definitions to `js/units-data.js`
+2. Create a new HTML page in the `converters/` folder
+3. Use the converter engine API:
+   ```javascript
+   converter.convert('category', 'fromUnit', 'toUnit', value)
