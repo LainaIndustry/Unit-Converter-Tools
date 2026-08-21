@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popular Conversions - ConvertSphere</title>
+  <meta name="description" content="Quick access to popular unit conversions: kg to lbs, cm to inches, celsius to fahrenheit, km to miles, and more.">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/converter.css">
+  <link rel="icon" href="../assets/favicon/favicon.ico">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-grid">
+      <div class="logo"><a href="../index.html"><span class="logo-icon">⟳</span> ConvertSphere</a><span class="tagline">convert &amp; learn</span></div>
+      <nav class="main-nav">
+        <button class="hamburger" id="hamburger" aria-expanded="false"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+        <ul id="nav-menu" class="nav-list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../converters/index.html">All Converters</a></li>
+          <li><a href="index.html" class="active">Popular</a></li>
+          <li><a href="../blog/index.html">Blog</a></li>
+          <li><a href="../guides/index.html">Guides</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li class="nav-actions">
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+            <button id="search-toggle" aria-label="Open search">🔍</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h1>Popular Conversions</h1>
+        <p style="text-align:center;color:var(--color-text-secondary);margin-bottom:var(--spacing-xl);">Quick access to the most commonly used unit conversions</p>
+        
+        <div class="cat-grid" id="popular-grid"></div>
+        
+        <div class="ad-container" style="margin-top:var(--spacing-xl);">
+          <span>Advertisement</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col"><h3>ConvertSphere</h3><p>Accurate unit conversions &amp; learning resources.</p></div>
+      <div class="footer-col"><h4>Converters</h4><ul><li><a href="../converters/length-converter.html">Length</a></li><li><a href="../converters/weight-converter.html">Weight</a></li><li><a href="../converters/temperature-converter.html">Temperature</a></li><li><a href="../converters/index.html">All</a></li></ul></div>
+      <div class="footer-col"><h4>Resources</h4><ul><li><a href="../blog/index.html">Blog</a></li><li><a href="../guides/index.html">Guides</a></li><li><a href="../about.html">About</a></li><li><a href="../contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="../privacy-policy.html">Privacy</a></li><li><a href="../terms.html">Terms</a></li><li><a href="../disclaimer.html">Disclaimer</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 ConvertSphere. All rights reserved.</p></div>
+  </footer>
+
+  <script src="../js/theme.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const popularConversions = [
+        { id: 'cm-to-inches', title: 'CM to Inches', icon: '📏', desc: 'Centimeters to Inches' },
+        { id: 'inches-to-cm', title: 'Inches to CM', icon: '📏', desc: 'Inches to Centimeters' },
+        { id: 'kg-to-lbs', title: 'KG to LBS', icon: '⚖️', desc: 'Kilograms to Pounds' },
+        { id: 'lbs-to-kg', title: 'LBS to KG', icon: '⚖️', desc: 'Pounds to Kilograms' },
+        { id: 'celsius-to-fahrenheit', title: 'Celsius to Fahrenheit', icon: '🌡️', desc: '°C to °F' },
+        { id: 'fahrenheit-to-celsius', title: 'Fahrenheit to Celsius', icon: '🌡️', desc: '°F to °C' },
+        { id: 'km-to-miles', title: 'KM to Miles', icon: '🗺️', desc: 'Kilometers to Miles' },
+        { id: 'miles-to-km', title: 'Miles to KM', icon: '🗺️', desc: 'Miles to Kilometers' },
+        { id: 'meters-to-feet', title: 'Meters to Feet', icon: '📐', desc: 'Meters to Feet' },
+        { id: 'feet-to-meters', title: 'Feet to Meters', icon: '📐', desc: 'Feet to Meters' },
+        { id: 'liters-to-gallons', title: 'Liters to Gallons', icon: '🧊', desc: 'Liters to US Gallons' },
+        { id: 'gallons-to-liters', title: 'Gallons to Liters', icon: '🧊', desc: 'US Gallons to Liters' }
+      ];
+      
+      const grid = document.getElementById('popular-grid');
+      popularConversions.forEach(item => {
+        const card = document.createElement('a');
+        card.href = `${item.id}.html`;
+        card.className = 'cat-card';
+        card.innerHTML = `
+          <div class="cat-icon">${item.icon}</div>
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+        `;
+        grid.appendChild(card);
+      });
+      
+      document.getElementById('hamburger').addEventListener('click', function() {
+        document.getElementById('nav-menu').classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
