@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weight Converter - ConvertSphere</title>
+  <meta name="description" content="Free weight converter: milligrams, grams, kilograms, ounces, pounds, tons, and more.">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/converter.css">
+  <link rel="icon" href="../assets/favicon/favicon.ico">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-grid">
+      <div class="logo"><a href="../index.html"><span class="logo-icon">⟳</span> ConvertSphere</a><span class="tagline">convert &amp; learn</span></div>
+      <nav class="main-nav">
+        <button class="hamburger" id="hamburger" aria-expanded="false"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+        <ul id="nav-menu" class="nav-list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="index.html" class="active">All Converters</a></li>
+          <li><a href="../conversions/index.html">Popular</a></li>
+          <li><a href="../blog/index.html">Blog</a></li>
+          <li><a href="../guides/index.html">Guides</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li class="nav-actions">
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+            <button id="search-toggle" aria-label="Open search">🔍</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="converter-page">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="../index.html">Home</a> <span>/</span>
+          <a href="index.html">Converters</a> <span>/</span>
+          Weight Converter
+        </nav>
+        
+        <div class="converter-wrapper">
+          <h1>Weight Converter</h1>
+          <p style="color:var(--color-text-secondary);margin-bottom:var(--spacing-lg);">Convert between milligrams, grams, kilograms, ounces, pounds, tons, and more.</p>
+          
+          <div class="card" id="weight-converter">
+            <div class="converter-form">
+              <div class="form-group">
+                <label for="wc-value">Value</label>
+                <input type="text" id="wc-value" inputmode="decimal" value="1">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="wc-from">From</label>
+                  <select id="wc-from"></select>
+                </div>
+                <button id="wc-swap" class="swap-btn">⇄</button>
+                <div class="form-group">
+                  <label for="wc-to">To</label>
+                  <select id="wc-to"></select>
+                </div>
+              </div>
+              <div class="result-area">
+                <span id="wc-result">1.0000</span>
+                <span id="wc-result-unit">Kilogram</span>
+                <div class="result-actions">
+                  <button id="wc-copy" class="icon-btn">📋</button>
+                  <button id="wc-reset" class="icon-btn">↺</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="ad-container" style="margin-top:var(--spacing-lg);">
+            <span>Advertisement</span>
+          </div>
+          
+          <div class="related-converters">
+            <h3>Related Conversions</h3>
+            <div class="related-links">
+              <a href="../conversions/kg-to-lbs.html">KG to LBS</a>
+              <a href="../conversions/lbs-to-kg.html">LBS to KG</a>
+              <a href="../blog/how-to-convert-kilograms-to-pounds.html">How to Convert KG to LBS</a>
+              <a href="../blog/difference-between-mass-and-weight.html">Mass vs Weight</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col"><h3>ConvertSphere</h3><p>Accurate unit conversions &amp; learning resources.</p></div>
+      <div class="footer-col"><h4>Converters</h4><ul><li><a href="length-converter.html">Length</a></li><li><a href="weight-converter.html">Weight</a></li><li><a href="temperature-converter.html">Temperature</a></li><li><a href="index.html">All</a></li></ul></div>
+      <div class="footer-col"><h4>Resources</h4><ul><li><a href="../blog/index.html">Blog</a></li><li><a href="../guides/index.html">Guides</a></li><li><a href="../about.html">About</a></li><li><a href="../contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="../privacy-policy.html">Privacy</a></li><li><a href="../terms.html">Terms</a></li><li><a href="../disclaimer.html">Disclaimer</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 ConvertSphere. All rights reserved.</p></div>
+  </footer>
+
+  <script src="../js/units-data.js"></script>
+  <script src="../js/converter-engine.js"></script>
+  <script src="../js/theme.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const category = 'weight';
+      const units = converter.getUnits(category);
+      const unitKeys = Object.keys(units);
+      
+      const fromSelect = document.getElementById('wc-from');
+      const toSelect = document.getElementById('wc-to');
+      const valueInput = document.getElementById('wc-value');
+      const resultSpan = document.getElementById('wc-result');
+      const resultUnitSpan = document.getElementById('wc-result-unit');
+      
+      unitKeys.forEach(key => {
+        const opt1 = document.createElement('option');
+        opt1.value = key;
+        opt1.textContent = units[key].name;
+        fromSelect.appendChild(opt1);
+        
+        const opt2 = document.createElement('option');
+        opt2.value = key;
+        opt2.textContent = units[key].name;
+        toSelect.appendChild(opt2);
+      });
+      
+      fromSelect.value = 'kg';
+      toSelect.value = 'lb';
+      
+      function convert() {
+        const from = fromSelect.value;
+        const to = toSelect.value;
+        const value = parseFloat(valueInput.value) || 0;
+        try {
+          const result = converter.convert(category, from, to, value);
+          resultSpan.textContent = converter.formatResult(result, 6);
+          resultUnitSpan.textContent = units[to].name;
+        } catch (e) {
+          resultSpan.textContent = 'Error';
+        }
+      }
+      
+      fromSelect.addEventListener('change', convert);
+      toSelect.addEventListener('change', convert);
+      valueInput.addEventListener('input', convert);
+      
+      document.getElementById('wc-swap').addEventListener('click', function() {
+        const from = fromSelect.value;
+        const to = toSelect.value;
+        fromSelect.value = to;
+        toSelect.value = from;
+        convert();
+      });
+      
+      document.getElementById('wc-copy').addEventListener('click', function() {
+        const result = `${resultSpan.textContent} ${resultUnitSpan.textContent}`;
+        navigator.clipboard.writeText(result);
+      });
+      
+      document.getElementById('wc-reset').addEventListener('click', function() {
+        valueInput.value = '1';
+        convert();
+      });
+      
+      convert();
+      
+      document.getElementById('hamburger').addEventListener('click', function() {
+        document.getElementById('nav-menu').classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
