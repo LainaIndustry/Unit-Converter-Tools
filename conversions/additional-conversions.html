@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Additional Conversions - ConvertSphere</title>
+  <meta name="description" content="More unit conversions including pressure, energy, power, speed, and data storage.">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/converter.css">
+  <link rel="icon" href="../assets/favicon/favicon.ico">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-grid">
+      <div class="logo"><a href="../index.html"><span class="logo-icon">⟳</span> ConvertSphere</a><span class="tagline">convert &amp; learn</span></div>
+      <nav class="main-nav">
+        <button class="hamburger" id="hamburger" aria-expanded="false"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+        <ul id="nav-menu" class="nav-list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../converters/index.html">All Converters</a></li>
+          <li><a href="index.html" class="active">Popular</a></li>
+          <li><a href="../blog/index.html">Blog</a></li>
+          <li><a href="../guides/index.html">Guides</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <li class="nav-actions">
+            <button id="theme-toggle" aria-label="Toggle dark mode">🌓</button>
+            <button id="search-toggle" aria-label="Open search">🔍</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="converter-page">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="../index.html">Home</a> <span>/</span>
+          <a href="index.html">Conversions</a> <span>/</span>
+          Additional Conversions
+        </nav>
+        
+        <div class="converter-wrapper">
+          <h1>Additional Conversions</h1>
+          <p style="color:var(--color-text-secondary);margin-bottom:var(--spacing-lg);">More unit conversion tools for specialized measurements.</p>
+          
+          <div class="cat-grid">
+            <a href="../converters/pressure-converter.html" class="cat-card">
+              <div class="cat-icon">💨</div>
+              <h3>Pressure</h3>
+              <p>Pa, PSI, Bar, atm</p>
+            </a>
+            <a href="../converters/energy-converter.html" class="cat-card">
+              <div class="cat-icon">⚡</div>
+              <h3>Energy</h3>
+              <p>J, cal, BTU, kWh</p>
+            </a>
+            <a href="../converters/power-converter.html" class="cat-card">
+              <div class="cat-icon">💡</div>
+              <h3>Power</h3>
+              <p>W, kW, HP</p>
+            </a>
+            <a href="../converters/speed-converter.html" class="cat-card">
+              <div class="cat-icon">🚀</div>
+              <h3>Speed</h3>
+              <p>km/h, mph, m/s, knot</p>
+            </a>
+            <a href="../converters/data-storage-converter.html" class="cat-card">
+              <div class="cat-icon">💾</div>
+              <h3>Data Storage</h3>
+              <p>B, KB, MB, GB, TB</p>
+            </a>
+            <a href="../converters/time-converter.html" class="cat-card">
+              <div class="cat-icon">⏱️</div>
+              <h3>Time</h3>
+              <p>s, min, hr, day</p>
+            </a>
+          </div>
+          
+          <div class="ad-container" style="margin-top:var(--spacing-xl);">
+            <span>Advertisement</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col"><h3>ConvertSphere</h3><p>Accurate unit conversions &amp; learning resources.</p></div>
+      <div class="footer-col"><h4>Converters</h4><ul><li><a href="../converters/length-converter.html">Length</a></li><li><a href="../converters/weight-converter.html">Weight</a></li><li><a href="../converters/temperature-converter.html">Temperature</a></li><li><a href="../converters/index.html">All</a></li></ul></div>
+      <div class="footer-col"><h4>Resources</h4><ul><li><a href="../blog/index.html">Blog</a></li><li><a href="../guides/index.html">Guides</a></li><li><a href="../about.html">About</a></li><li><a href="../contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="../privacy-policy.html">Privacy</a></li><li><a href="../terms.html">Terms</a></li><li><a href="../disclaimer.html">Disclaimer</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 ConvertSphere. All rights reserved.</p></div>
+  </footer>
+
+  <script src="../js/theme.js"></script>
+  <script>
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('nav-menu').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
