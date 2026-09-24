@@ -469,3 +469,8 @@ h3 { font-size: 1.5rem; }
   padding: var(--spacing-sm);
   margin-top: var(--spacing-md);
 }
+ /* Hide empty ad placeholders until real AdSense code is inserted.
+   Remove this rule once you paste your approved AdSense <ins> units. */
+.ad-container:not(:has(ins.adsbygoogle)) {
+    display: none !important;
+}
