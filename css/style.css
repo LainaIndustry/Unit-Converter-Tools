@@ -474,3 +474,7 @@ h3 { font-size: 1.5rem; }
 .ad-container:not(:has(ins.adsbygoogle)) {
     display: none !important;
 }
+/* Temporarily hide ad placeholders until AdSense is approved */
+.ad-container.ad-placeholder {
+    display: none;
+}
