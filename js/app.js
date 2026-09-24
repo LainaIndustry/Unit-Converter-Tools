@@ -1,7 +1,6 @@
 // Main application initialization
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize all components
   initUniversalConverter();
   initCategoryGrid();
   initCommonConversions();
@@ -23,6 +22,9 @@ function initUniversalConverter() {
   const swapBtn = document.getElementById('uc-swap');
   const copyBtn = document.getElementById('uc-copy');
   const resetBtn = document.getElementById('uc-reset');
+  const convertBtn = document.getElementById('uc-convert');
+
+  if (!categorySelect || !valueInput || !resultSpan) return;
 
   // Populate categories
   CATEGORY_LIST.forEach(cat => {
@@ -36,38 +38,60 @@ function initUniversalConverter() {
   function loadUnits(category) {
     const units = converter.getUnits(category);
     const unitKeys = Object.keys(units);
-    
-    // Clear selects
+
     fromSelect.innerHTML = '';
     toSelect.innerHTML = '';
-    
+
     unitKeys.forEach(key => {
       const opt1 = document.createElement('option');
       opt1.value = key;
       opt1.textContent = units[key].name;
       fromSelect.appendChild(opt1);
-      
+
       const opt2 = document.createElement('option');
       opt2.value = key;
       opt2.textContent = units[key].name;
       toSelect.appendChild(opt2);
     });
 
-    // Set default selections
     if (unitKeys.length > 1) {
       fromSelect.value = unitKeys[0];
       toSelect.value = unitKeys[1] || unitKeys[0];
     }
   }
 
-  // Perform conversion
+  // Clear result and display dashes
+  function clearResult() {
+    resultSpan.textContent = '—';
+    resultUnitSpan.textContent = '';
+  }
+
+  // Perform conversion - ONLY triggered by button click, swap, or unit change
   function performConversion() {
     const category = categorySelect.value;
     const from = fromSelect.value;
     const to = toSelect.value;
-    const value = parseFloat(valueInput.value) || 0;
+    const rawValue = valueInput.value.trim();
 
-    if (!category || !from || !to) return;
+    // If user hasn't typed anything yet, show a dash
+    if (rawValue === '') {
+      clearResult();
+      return;
+    }
+
+    const value = parseFloat(rawValue);
+
+    // Validate the input
+    if (isNaN(value)) {
+      resultSpan.textContent = 'Invalid';
+      resultUnitSpan.textContent = '';
+      return;
+    }
+
+    if (!category || !from || !to) {
+      clearResult();
+      return;
+    }
 
     try {
       const result = converter.convert(category, from, to, value);
@@ -75,7 +99,7 @@ function initUniversalConverter() {
       resultSpan.textContent = formatted;
       const toUnit = getUnitDisplay(category, to);
       resultUnitSpan.textContent = toUnit;
-      
+
       // Save to recent conversions
       saveRecentConversion(category, from, to, value, result);
     } catch (e) {
@@ -84,46 +108,73 @@ function initUniversalConverter() {
     }
   }
 
-  // Event listeners
+  // ---------- EVENT LISTENERS ----------
+
+  // Category change → reload units and clear result
   categorySelect.addEventListener('change', function() {
     loadUnits(this.value);
-    performConversion();
+    clearResult();
   });
 
-  fromSelect.addEventListener('change', performConversion);
-  toSelect.addEventListener('change', performConversion);
-  valueInput.addEventListener('input', performConversion);
+  // From/To unit change → re-run conversion only if a value is already entered
+  fromSelect.addEventListener('change', function() {
+    if (valueInput.value.trim() !== '') performConversion();
+    else clearResult();
+  });
 
-  // Swap units
+  toSelect.addEventListener('change', function() {
+    if (valueInput.value.trim() !== '') performConversion();
+    else clearResult();
+  });
+
+  // *** MANUAL INPUT ONLY: No auto-convert on typing ***
+  // Users must click "Convert" to see the result.
+  valueInput.addEventListener('keydown', function(e) {
+    // Optional: allow Enter key to trigger conversion
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      performConversion();
+    }
+  });
+
+  // Convert button
+  if (convertBtn) {
+    convertBtn.addEventListener('click', performConversion);
+  }
+
+  // Swap units → keep the value, re-convert
   swapBtn.addEventListener('click', function() {
     const fromVal = fromSelect.value;
     const toVal = toSelect.value;
     fromSelect.value = toVal;
     toSelect.value = fromVal;
-    performConversion();
+    if (valueInput.value.trim() !== '') performConversion();
+    else clearResult();
   });
 
   // Copy result
   copyBtn.addEventListener('click', function() {
     const result = resultSpan.textContent;
-    if (result && result !== 'Error') {
+    if (result && result !== '—' && result !== 'Error' && result !== 'Invalid') {
       const fullResult = `${result} ${resultUnitSpan.textContent}`;
       navigator.clipboard.writeText(fullResult).then(() => {
         copyBtn.textContent = '✅';
-        setTimeout(() => copyBtn.textContent = '📋', 2000);
+        setTimeout(() => copyBtn.textContent = '📋', 1500);
       });
     }
   });
 
-  // Reset
+  // *** FIXED RESET: clears input, dashes the result, resets units ***
   resetBtn.addEventListener('click', function() {
-    valueInput.value = '1';
-    performConversion();
+    // Clear the value input
+    valueInput.value = '';
+    // Reset to default units for the current category
+    loadUnits(categorySelect.value);
+    // Clear the displayed result
+    clearResult();
+    // Focus the input so user can start typing immediately
+    valueInput.focus();
   });
-
-  // Load initial
-  loadUnits(categorySelect.value);
-  performConversion();
 
   // Expose for quick pills
   window.ucPerformConversion = performConversion;
@@ -134,11 +185,15 @@ function initUniversalConverter() {
   window.ucSetUnits = function(from, to) {
     fromSelect.value = from;
     toSelect.value = to;
-    performConversion();
   };
+
+  // Load initial state (no auto-convert — result shows "—")
+  loadUnits(categorySelect.value);
+  clearResult();
 }
 
-// Category grid
+// -------------------- OTHER INIT FUNCTIONS (unchanged) --------------------
+
 function initCategoryGrid() {
   const grid = document.getElementById('category-grid');
   if (!grid) return;
@@ -156,7 +211,6 @@ function initCategoryGrid() {
   });
 }
 
-// Common conversions
 function initCommonConversions() {
   const grid = document.getElementById('common-grid');
   if (!grid) return;
@@ -189,35 +243,29 @@ function initCommonConversions() {
   });
 }
 
-// Quick pills
 function initQuickPills() {
   document.querySelectorAll('.pill').forEach(pill => {
     pill.addEventListener('click', function() {
       const category = this.dataset.cat;
       const from = this.dataset.from;
       const to = this.dataset.to;
-      
-      // Set category in universal converter
+
       const catSelect = document.getElementById('uc-category');
       if (catSelect) {
         catSelect.value = category;
         catSelect.dispatchEvent(new Event('change'));
-        
-        // Set units after category change
+
         setTimeout(() => {
-          if (window.ucSetUnits) {
-            window.ucSetUnits(from, to);
-          }
-          if (window.ucPerformConversion) {
-            window.ucPerformConversion();
-          }
+          if (window.ucSetUnits) window.ucSetUnits(from, to);
+          const valInput = document.getElementById('uc-value');
+          if (valInput) valInput.value = '1';
+          if (window.ucPerformConversion) window.ucPerformConversion();
         }, 100);
       }
     });
   });
 }
 
-// Featured guides
 function initFeaturedGuides() {
   const container = document.getElementById('featured-guides');
   if (!container) return;
@@ -235,39 +283,20 @@ function initFeaturedGuides() {
   });
 }
 
-// FAQ
 function initFAQ() {
   const container = document.getElementById('faq-container');
   if (!container) return;
 
   const faqs = [
-    {
-      q: 'How accurate are the conversions?',
-      a: 'Our conversions use standard international measurement definitions and are accurate to 15 decimal places in most cases.'
-    },
-    {
-      q: 'Can I use these tools for engineering calculations?',
-      a: 'While our tools are highly accurate, critical engineering calculations should be verified with professional measurement tools.'
-    },
-    {
-      q: 'What is the difference between metric and imperial units?',
-      a: 'Metric units are based on multiples of 10 and are used worldwide, while imperial units are primarily used in the United States.'
-    },
-    {
-      q: 'Does the website work on mobile devices?',
-      a: 'Yes, our website is fully responsive and works perfectly on smartphones, tablets, and desktop computers.'
-    },
-    {
-      q: 'Are the tools free?',
-      a: 'Yes, all conversion tools on ConvertSphere are completely free to use with no registration required.'
-    },
-    {
-      q: 'Do I need to create an account?',
-      a: 'No account is required. You can use all features immediately without any registration.'
-    }
+    { q: 'How accurate are the conversions?', a: 'Our conversions use standard international measurement definitions and are accurate to 15 decimal places in most cases.' },
+    { q: 'Can I use these tools for engineering calculations?', a: 'While our tools are highly accurate, critical engineering calculations should be verified with professional measurement tools.' },
+    { q: 'What is the difference between metric and imperial units?', a: 'Metric units are based on multiples of 10 and are used worldwide, while imperial units are primarily used in the United States.' },
+    { q: 'Does the website work on mobile devices?', a: 'Yes, our website is fully responsive and works perfectly on smartphones, tablets, and desktop computers.' },
+    { q: 'Are the tools free?', a: 'Yes, all conversion tools on ConvertSphere are completely free to use with no registration required.' },
+    { q: 'Do I need to create an account?', a: 'No account is required. You can use all features immediately without any registration.' }
   ];
 
-  faqs.forEach((faq, index) => {
+  faqs.forEach(faq => {
     const item = document.createElement('div');
     item.className = 'faq-item';
     item.innerHTML = `
@@ -277,19 +306,16 @@ function initFAQ() {
     container.appendChild(item);
   });
 
-  // FAQ toggle
   container.addEventListener('click', function(e) {
     const button = e.target.closest('.faq-question');
     if (!button) return;
     const item = button.closest('.faq-item');
     const isActive = item.classList.contains('active');
-    // Close all
     this.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
     if (!isActive) item.classList.add('active');
   });
 }
 
-// Hamburger menu
 function initHamburgerMenu() {
   const hamburger = document.getElementById('hamburger');
   const navMenu = document.getElementById('nav-menu');
@@ -301,7 +327,6 @@ function initHamburgerMenu() {
   });
 }
 
-// Search toggle
 function initSearchToggle() {
   const toggle = document.getElementById('search-toggle');
   const search = document.getElementById('global-search');
@@ -310,9 +335,7 @@ function initSearchToggle() {
   toggle.addEventListener('click', function() {
     const hidden = search.hidden;
     search.hidden = !hidden;
-    if (hidden) {
-      document.getElementById('search-input')?.focus();
-    }
+    if (hidden) document.getElementById('search-input')?.focus();
   });
 }
 
@@ -320,17 +343,8 @@ function initSearchToggle() {
 function saveRecentConversion(category, from, to, value, result) {
   try {
     const recent = JSON.parse(localStorage.getItem('recentConversions') || '[]');
-    recent.unshift({
-      category,
-      from,
-      to,
-      value,
-      result,
-      timestamp: Date.now()
-    });
+    recent.unshift({ category, from, to, value, result, timestamp: Date.now() });
     if (recent.length > 20) recent.pop();
     localStorage.setItem('recentConversions', JSON.stringify(recent));
   } catch (e) { /* ignore */ }
 }
-
-// Theme toggle is in theme.js
