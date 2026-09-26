@@ -50,20 +50,14 @@
   <main>
     <section class="section">
       <div class="container">
-        <nav class="breadcrumb">
-          <a href="../index.html">Home</a> <span>/</span>
-          <a href="index.html">All Converters</a>
-        </nav>
-        
         <h1>All Unit Converters</h1>
         <p style="text-align:center;color:var(--color-text-secondary);margin-bottom:var(--spacing-xl);">Browse our complete collection of unit conversion tools</p>
         
         <div class="cat-grid" id="converter-grid"></div>
         
-        <!-- AdSense placeholder — will be replaced with real ad unit after approval -->
-<div class="ad-container ad-placeholder">
-    <span>Advertisement</span>
-</div>
+        <div class="ad-container" style="margin-top:var(--spacing-xl);">
+          <span>Advertisement</span>
+        </div>
       </div>
     </section>
   </main>
@@ -111,88 +105,76 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Ensure CATEGORY_LIST is available
-      var categoryList = typeof CATEGORY_LIST !== 'undefined' ? CATEGORY_LIST : [
-        { id: 'length', name: 'Length', icon: '📏' },
-        { id: 'weight', name: 'Weight', icon: '⚖️' },
-        { id: 'temperature', name: 'Temperature', icon: '🌡️' },
-        { id: 'area', name: 'Area', icon: '📐' },
-        { id: 'volume', name: 'Volume', icon: '🧊' },
-        { id: 'time', name: 'Time', icon: '⏱️' },
-        { id: 'speed', name: 'Speed', icon: '🚀' },
-        { id: 'pressure', name: 'Pressure', icon: '💨' },
-        { id: 'energy', name: 'Energy', icon: '⚡' },
-        { id: 'power', name: 'Power', icon: '💡' },
-        { id: 'storage', name: 'Data Storage', icon: '💾' },
-        { id: 'force', name: 'Force', icon: '💪' },
-        { id: 'angle', name: 'Angle', icon: '📐' },
-        { id: 'frequency', name: 'Frequency', icon: '📶' },
-        { id: 'density', name: 'Density', icon: '⚗️' },
-        { id: 'torque', name: 'Torque', icon: '🔧' },
-        { id: 'acceleration', name: 'Acceleration', icon: '📈' },
-        { id: 'flow', name: 'Flow', icon: '🌊' },
-        { id: 'fuel', name: 'Fuel Consumption', icon: '⛽' }
-      ];
+      if (typeof CATEGORY_LIST === 'undefined') {
+        // Fallback if units-data.js didn't load
+        console.warn('CATEGORY_LIST not found, using fallback');
+        var CATEGORY_LIST = [
+          { id: 'length', name: 'Length', icon: '📏' },
+          { id: 'weight', name: 'Weight', icon: '⚖️' },
+          { id: 'temperature', name: 'Temperature', icon: '🌡️' },
+          { id: 'area', name: 'Area', icon: '📐' },
+          { id: 'volume', name: 'Volume', icon: '🧊' },
+          { id: 'time', name: 'Time', icon: '⏱️' },
+          { id: 'speed', name: 'Speed', icon: '🚀' },
+          { id: 'pressure', name: 'Pressure', icon: '💨' },
+          { id: 'energy', name: 'Energy', icon: '⚡' },
+          { id: 'power', name: 'Power', icon: '💡' },
+          { id: 'storage', name: 'Data Storage', icon: '💾' },
+          { id: 'force', name: 'Force', icon: '💪' },
+          { id: 'angle', name: 'Angle', icon: '📐' },
+          { id: 'frequency', name: 'Frequency', icon: '📶' },
+          { id: 'density', name: 'Density', icon: '⚗️' },
+          { id: 'torque', name: 'Torque', icon: '🔧' },
+          { id: 'acceleration', name: 'Acceleration', icon: '📈' },
+          { id: 'flow', name: 'Flow', icon: '🌊' },
+          { id: 'fuel', name: 'Fuel Consumption', icon: '⛽' }
+        ];
+      }
 
       const grid = document.getElementById('converter-grid');
       
-      if (grid) {
-        categoryList.forEach(cat => {
-          const card = document.createElement('a');
-          card.href = `${cat.id}-converter.html`;
-          card.className = 'cat-card';
-          card.innerHTML = `
-            <div class="cat-icon">${cat.icon}</div>
-            <h3>${cat.name}</h3>
-            <p>Convert ${cat.name.toLowerCase()} units</p>
-          `;
-          grid.appendChild(card);
-        });
-      }
+      CATEGORY_LIST.forEach(cat => {
+        const card = document.createElement('a');
+        card.href = `${cat.id}-converter.html`;
+        card.className = 'cat-card';
+        card.innerHTML = `
+          <div class="cat-icon">${cat.icon}</div>
+          <h3>${cat.name}</h3>
+          <p>Convert ${cat.name.toLowerCase()} units</p>
+        `;
+        grid.appendChild(card);
+      });
 
       // Theme toggle
-      const themeBtn = document.getElementById('theme-toggle');
-      if (themeBtn) {
-        themeBtn.addEventListener('click', function() {
-          const currentTheme = document.documentElement.getAttribute('data-theme');
-          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', newTheme);
-          localStorage.setItem('convertsphere-theme', newTheme);
-          this.textContent = newTheme === 'dark' ? '☀️' : '🌓';
-        });
-      }
+      document.getElementById('theme-toggle').addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('convertsphere-theme', newTheme);
+        this.textContent = newTheme === 'dark' ? '☀️' : '🌓';
+      });
 
       // Search toggle
-      const searchToggle = document.getElementById('search-toggle');
-      if (searchToggle) {
-        searchToggle.addEventListener('click', function() {
-          const search = document.getElementById('global-search');
-          if (search) {
-            search.hidden = !search.hidden;
-            if (!search.hidden) {
-              const input = document.getElementById('search-input');
-              if (input) input.focus();
-            }
-          }
-        });
-      }
+      document.getElementById('search-toggle').addEventListener('click', function() {
+        const search = document.getElementById('global-search');
+        search.hidden = !search.hidden;
+        if (!search.hidden) {
+          document.getElementById('search-input').focus();
+        }
+      });
 
       // Hamburger menu
-      const hamburger = document.getElementById('hamburger');
-      if (hamburger) {
-        hamburger.addEventListener('click', function() {
-          const navMenu = document.getElementById('nav-menu');
-          if (navMenu) {
-            const isOpen = navMenu.classList.toggle('open');
-            this.setAttribute('aria-expanded', isOpen);
-          }
-        });
-      }
+      document.getElementById('hamburger').addEventListener('click', function() {
+        const navMenu = document.getElementById('nav-menu');
+        const isOpen = navMenu.classList.toggle('open');
+        this.setAttribute('aria-expanded', isOpen);
+      });
 
       // Global search functionality
       const searchInput = document.getElementById('search-input');
       const searchResults = document.getElementById('search-results');
       
-      if (searchInput && searchResults) {
+      if (searchInput) {
         searchInput.addEventListener('input', function() {
           const query = this.value.trim();
           if (!query) {
@@ -200,8 +182,8 @@
             return;
           }
           
-          // Search across converter names
-          const results = categoryList.filter(cat => 
+          // Simple search across converter names
+          const results = CATEGORY_LIST.filter(cat => 
             cat.name.toLowerCase().includes(query.toLowerCase())
           );
           
@@ -213,7 +195,7 @@
             `;
           } else {
             searchResults.innerHTML = results.map(cat => `
-              <a href="${cat.id}-converter.html" class="search-result-item" style="display:block;padding:var(--spacing-md);border-bottom:1px solid var(--color-border);text-decoration:none;color:var(--color-text);">
+              <a href="${cat.id}-converter.html" class="search-result-item" style="display:block;padding:var(--spacing-md);border-bottom:1px solid var(--color-border);">
                 <strong>${cat.icon} ${cat.name}</strong>
                 <div style="font-size:0.9rem;color:var(--color-text-secondary);">Convert ${cat.name.toLowerCase()} units</div>
               </a>
@@ -225,6 +207,7 @@
       // Restore theme
       const savedTheme = localStorage.getItem('convertsphere-theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
+      const themeBtn = document.getElementById('theme-toggle');
       if (themeBtn) {
         themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
       }
